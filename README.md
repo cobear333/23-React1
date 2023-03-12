@@ -26,3 +26,15 @@
     * 프로젝트의 히스토리를 저장하여 버전관리에 활용
 ```
 ![커밋2](/images/img3.png)
+### 05. GitHub로 push하기 1
+```
+    * 변경된 내용 중 일부 파일만 commit후 push하는 경우
+    * 케밥 메뉴 클릭 후 'Push' 선택
+    * Add Remote 버튼을 클릭한 후 원하는 repository 선택
+```
+![Push1](/images/img4.png)
+### 06. GitHub로 push하기 2
+```
+    * 변경된 내용 모두 commit 후 push하는 경우
+    * 'Publish Branch' 버튼으로 Push
+```
