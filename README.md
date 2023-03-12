@@ -38,3 +38,4 @@
     * 변경된 내용 모두 commit 후 push하는 경우
     * 'Publish Branch' 버튼으로 Push
 ```
+![Push2](/images/img5.png)
