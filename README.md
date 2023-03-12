@@ -1,6 +1,7 @@
 23-React1
 ===========
-## 03.10 2주차 수업내용
+03.10 2주차 수업내용
+------------
 ### 1. git 사용자 설정
 ```
     $ git config --global user.name "user.name"
@@ -48,3 +49,26 @@
 ```
 Headers
 =======
+* 작은제목: 문서 부제목
+```
+    SubTitle
+    --------
+```
+SubTitle
+--------
+* 글머리: 1~6까지
+```
+    # This is a H1
+    ## This is a H2
+    ### This is a H3
+    #### This is a H4
+    ##### This is a H5
+    ###### This is a H6
+```
+# This is a H1
+## This is a H2
+### This is a H3
+#### This is a H4
+##### This is a H5
+###### This is a H6
+
