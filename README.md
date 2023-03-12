@@ -20,3 +20,9 @@
     * source control에서 commit을 원하는 파일을 stage로 이동
 ```
 ![커밋](/images/img2.gif)
+### 04. 커밋 2
+```
+    * 원하는 파일을 stage에 올린 뒤 commit 제목과 설명 입력
+    * 프로젝트의 히스토리를 저장하여 버전관리에 활용
+```
+![커밋2](/images/img3.png)
