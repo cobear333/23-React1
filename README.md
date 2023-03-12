@@ -4,4 +4,7 @@
 ### git 사용자 설정
 ```
     $ git config --global user.name "user.name"
+    $ git config --global user.email "email@example.com"
 ```
+### 프로젝트 폴더 Git으로 초기화
+
