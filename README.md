@@ -1,70 +1,111 @@
-# Getting Started with Create React App
+23-React1
+===========
+03.16 3주차 수업내용
+------------
+### 1. 리액트의 장점
+```
+    * 빠른 업데이트와 렌더링 속도
+    * 컴포넌트 기반 구조
+    * 재사용성
+    * 모바일 앱 개발 가능
+```
+### 2. 리액트의 단점
+```
+    * 방대한 학습량
+    * 높은 상태 관리 복잡도
+```
+### 3. 웹사이트에 React.js 추가하기
+```
+    <!-- 리액트 가져오기 -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"crossorigin>
+    </script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin>
+    </script> 
+    <!-- 리액트 컴포넌트 가져오기 -->
+```
+### 4. create-react-app
+#### 4-1. 사용법
+![react-app](/images/img6.png)
+```
+    $ npx create-react-app <your-project-name>
+```
+#### 4-2. npm start
+![img7](/images/img7.png)
+```
+    $ cd my-app
+    $ npm start
+```
+#### 4-3. React App 시작됨
+![img8](/images/img8.png)
+03.9 2주차 수업내용
+------------
+### 1. git 사용자 설정
+```
+    $ git config --global user.name "user.name"
+    $ git config --global user.email "email@example.com"
+```
+### 2. 프로젝트 폴더 Git으로 초기화
+```
+    * git init 명령으로 초기화
+    * 'source control > Initialize Repository'
+    * .git 숨김 폴더 생성
+```
+![레포지트리 초기화](/images/img1.gif)
+### 3. 커밋
+```
+    * 파일이 생성되거나, 내용이 변경되면 Git에서 추적
+    * 변환된 파일의 숫자 만큼 source control에 표시
+    * source control에서 commit을 원하는 파일을 stage로 이동
+```
+![커밋](/images/img2.gif)
+### 4. 커밋 2
+```
+    * 원하는 파일을 stage에 올린 뒤 commit 제목과 설명 입력
+    * 프로젝트의 히스토리를 저장하여 버전관리에 활용
+```
+![커밋2](/images/img3.png)
+### 5. GitHub로 push하기 1
+```
+    * 변경된 내용 중 일부 파일만 commit후 push하는 경우
+    * 케밥 메뉴 클릭 후 'Push' 선택
+    * Add Remote 버튼을 클릭한 후 원하는 repository 선택
+```
+![Push1](/images/img4.png)
+### 6. GitHub로 push하기 2
+```
+    * 변경된 내용 모두 commit 후 push하는 경우
+    * 'Publish Branch' 버튼으로 Push
+```
+![Push2](/images/img5.png)
+### 7. 마크다운 주요 문법
+#### 7.1 헤더
+* 큰제목: 문서 제목
+```
+    Headers
+    =======
+```
+Headers
+=======
+* 작은제목: 문서 부제목
+```
+    SubTitle
+    --------
+```
+SubTitle
+--------
+* 글머리: 1~6까지
+```
+    # This is a H1
+    ## This is a H2
+    ### This is a H3
+    #### This is a H4
+    ##### This is a H5
+    ###### This is a H6
+```
+# This is a H1
+## This is a H2
+### This is a H3
+#### This is a H4
+##### This is a H5
+###### This is a H6
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
