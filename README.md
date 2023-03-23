@@ -7,6 +7,33 @@
     * 자바스크립트의 확장 문법
     const element = <h1>Hello, world</h1>;
 ```
+### 2, JSX의 역할
+#### 1번 코드
+```
+    class Hello extends React.Componet{
+        render(){
+            return <div>Hello {this.props.toWhat}</div>;
+        }
+    }
+
+    ReactDOM.render(
+        <Hello toWhat="World" />,
+        document.getElementById('root')
+    );
+```
+#### 2번 코드
+```
+    class Hello extends React.Component{
+        render(){
+            return React.createElemnet('div', null, `Hello ${this.props.toWhat}`);
+        }
+    }
+
+    ReactDOM.render(
+        React.createElement(Hello, { toWhat: `World` }, null),
+        document.getElementById('root')
+    );
+```
 03.16 3주차 수업내용
 ------------
 ### 1. 리액트의 장점
