@@ -7,7 +7,11 @@
     * 자바스크립트의 확장 문법
     const element = <h1>Hello, world</h1>;
 ```
-### 2, JSX의 역할
+### 2, JSX의 역할 1
+    * 1번코드와 2번코드의 차이점에서 확인 할 수 있음.
+    * Hello 컴포넌트 내부에서 JSX를 사용했던 부분이 React.createElement() 함수로 대채됨.
+    * JSX 문법을 사용하면 리액트 내부적으로 모두 createElement라는 함수를 사용하도록 변경.
+    * JSX를 사용하지 않고 순수한 자바스크립트 코드만을 사용하여 완전히 동일한 역할 수행.
 #### 1번 코드
 ```
     class Hello extends React.Componet{
@@ -34,6 +38,66 @@
         document.getElementById('root')
     );
 ```
+### 2. JSX의 역할 2
+    * 아래 코드를 통해 JSX를 사용한 코드와 사용하지 않은 코드 모두 동일한 역할을 수행함.
+    * JSX를 사용한 코드도 내부적으로는 createElement() 함수를 사용하도록 변환되기 때문.
+    * createElement() 함수의 호출 결과로 자바스크립트 객체 생성
+    * React에서는 이 객체를 엘리먼트라고 부름
+```
+    const element = (
+        <h1 className="greeting">
+        Hello, world!
+        </h1>
+    )
+
+    const element = React.createElement(
+        'h1',
+        { className: 'greeting'},
+        'Hello, world!'
+    )
+```
+### 3. createElement() 함수의 파라미터
+```
+    const element = {
+        type: 'h1',
+        props: {
+            className: 'greeting',
+            children: 'Hello, world!'
+        }
+    }
+```
+```
+    React.createElement(
+        type,
+        [props],
+        [...children]
+    )
+```
+    * 첫 번째 파라미터는 엘리먼트의 유형(type)을 나타냄.
+    * 두 번째 파라미터는 props가 들어가게됨.
+    * 세 번째 파라미터는 children이 들어가게 됨. 현재 엘리먼트가 포함하고 있는 자식 엘리먼트
+### 4. JSX의 장점
+#### 코드가 간결해짐
+```
+    <!--JSX 사용함-->
+    <div>Hello, {name}</div>
+
+    <!--JSX 사용 안 함>
+    React.createElement('div', null, `Hello, ${name}`);
+```
+#### 가독성이 향상됨
+    * 코드를 작성할 때뿐만 아니라 유지보스 관점에서도 중요함.
+    * 가독성이 높을수록 코드상에 존재하는 버그 또한 쉽게 발견되기 때문.
+#### 보안성이 올라감(Injection Attack을 방어)
+```
+    const title = response.potentiallyMaliciousInput;
+    //이 코드는 안전합니다.
+    const element = <h1>{title}</h1>;
+```
+    * 위 코드에는 title 변수에 잠재적으로 보안 위험의 가능성이 있는 코드가 삽입
+    * ReactDOM은 렌더링하기 전에 임베딩된 값을 모두 문자열로 변환.
+    * 결과적으로 XSS라 불리는 cross-site-scripting attaks을 방어
+
 03.16 3주차 수업내용
 ------------
 ### 1. 리액트의 장점
