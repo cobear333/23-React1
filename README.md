@@ -7,7 +7,7 @@
     * 자바스크립트의 확장 문법
     const element = <h1>Hello, world</h1>;
 ```
-### 2, JSX의 역할 1
+### 2. JSX의 역할 1
     * 1번코드와 2번코드의 차이점에서 확인 할 수 있음.
     * Hello 컴포넌트 내부에서 JSX를 사용했던 부분이 React.createElement() 함수로 대채됨.
     * JSX 문법을 사용하면 리액트 내부적으로 모두 createElement라는 함수를 사용하도록 변경.
@@ -73,11 +73,12 @@
         [...children]
     )
 ```
+
     * 첫 번째 파라미터는 엘리먼트의 유형(type)을 나타냄.
     * 두 번째 파라미터는 props가 들어가게됨.
     * 세 번째 파라미터는 children이 들어가게 됨. 현재 엘리먼트가 포함하고 있는 자식 엘리먼트
 ### 4. JSX의 장점
-#### 코드가 간결해짐
+#### 4-1. 코드가 간결해짐
 ```
     <!--JSX 사용함-->
     <div>Hello, {name}</div>
@@ -85,10 +86,10 @@
     <!--JSX 사용 안 함>
     React.createElement('div', null, `Hello, ${name}`);
 ```
-#### 가독성이 향상됨
+#### 4-2. 가독성이 향상됨
     * 코드를 작성할 때뿐만 아니라 유지보스 관점에서도 중요함.
     * 가독성이 높을수록 코드상에 존재하는 버그 또한 쉽게 발견되기 때문.
-#### 보안성이 올라감(Injection Attack을 방어)
+#### 4-3. 보안성이 올라감(Injection Attack을 방어)
 ```
     const title = response.potentiallyMaliciousInput;
     //이 코드는 안전합니다.
@@ -97,6 +98,39 @@
     * 위 코드에는 title 변수에 잠재적으로 보안 위험의 가능성이 있는 코드가 삽입
     * ReactDOM은 렌더링하기 전에 임베딩된 값을 모두 문자열로 변환.
     * 결과적으로 XSS라 불리는 cross-site-scripting attaks을 방어
+### 5. JSX 사용법
+    * 기본적으로 JSX는 자바스크립트 문법을 확장시킨 것이기 때문에, 모든 자바스크립트 문법을 지원.
+```
+    const name = '소플'
+    const element = <h1>안녕, {name}</h1>;
+
+    ReactDOM.render(
+        element,
+        document.getElementById('root')
+    );
+```
+    * HTML 코드 사이에 괄호를 사용해 변수가 아닌 formatUser()라는 자바 스크립트 함수를 호출
+```
+    function formatName(user){
+        return user.firstName + ' ' + user.lastName;
+    }
+
+    const user = {
+        firstName: 'Inje',
+        lastName: 'Lee'
+    };
+
+    const element = (
+        <h1>
+            Hello, {formatUser(user)}
+        </h1>
+    );
+
+    ReactDOM.render(
+        element,
+        document.getElementById('root')
+    );
+```
 
 03.16 3주차 수업내용
 ------------
