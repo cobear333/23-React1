@@ -3,7 +3,7 @@
 03.23 4주차 수업내용
 ------------
 ### 1. JSX란
-```
+```js
     * 자바스크립트의 확장 문법
     const element = <h1>Hello, world</h1>;
 ```
@@ -13,7 +13,7 @@
     * JSX 문법을 사용하면 리액트 내부적으로 모두 createElement라는 함수를 사용하도록 변경.
     * JSX를 사용하지 않고 순수한 자바스크립트 코드만을 사용하여 완전히 동일한 역할 수행.
 #### 1번 코드
-```
+```js
     class Hello extends React.Componet{
         render(){
             return <div>Hello {this.props.toWhat}</div>;
@@ -26,7 +26,7 @@
     );
 ```
 #### 2번 코드
-```
+```js
     class Hello extends React.Component{
         render(){
             return React.createElemnet('div', null, `Hello ${this.props.toWhat}`);
@@ -43,7 +43,7 @@
     * JSX를 사용한 코드도 내부적으로는 createElement() 함수를 사용하도록 변환되기 때문.
     * createElement() 함수의 호출 결과로 자바스크립트 객체 생성
     * React에서는 이 객체를 엘리먼트라고 부름
-```
+```js
     const element = (
         <h1 className="greeting">
         Hello, world!
@@ -57,7 +57,7 @@
     )
 ```
 ### 3. createElement() 함수의 파라미터
-```
+```js
     const element = {
         type: 'h1',
         props: {
@@ -66,7 +66,7 @@
         }
     }
 ```
-```
+```js
     React.createElement(
         type,
         [props],
@@ -79,7 +79,7 @@
     * 세 번째 파라미터는 children이 들어가게 됨. 현재 엘리먼트가 포함하고 있는 자식 엘리먼트
 ### 4. JSX의 장점
 #### 4-1. 코드가 간결해짐
-```
+```js
     <!--JSX 사용함-->
     <div>Hello, {name}</div>
 
@@ -90,7 +90,7 @@
     * 코드를 작성할 때뿐만 아니라 유지보스 관점에서도 중요함.
     * 가독성이 높을수록 코드상에 존재하는 버그 또한 쉽게 발견되기 때문.
 #### 4-3. 보안성이 올라감(Injection Attack을 방어)
-```
+```js
     const title = response.potentiallyMaliciousInput;
     //이 코드는 안전합니다.
     const element = <h1>{title}</h1>;
@@ -100,7 +100,7 @@
     * 결과적으로 XSS라 불리는 cross-site-scripting attaks을 방어
 ### 5. JSX 사용법
     * 기본적으로 JSX는 자바스크립트 문법을 확장시킨 것이기 때문에, 모든 자바스크립트 문법을 지원.
-```
+```js
     const name = '소플'
     const element = <h1>안녕, {name}</h1>;
 
@@ -110,7 +110,7 @@
     );
 ```
     * HTML 코드 사이에 괄호를 사용해 변수가 아닌 formatUser()라는 자바 스크립트 함수를 호출
-```
+```js
     function formatName(user){
         return user.firstName + ' ' + user.lastName;
     }
@@ -147,7 +147,7 @@
     * 높은 상태 관리 복잡도
 ```
 ### 3. 웹사이트에 React.js 추가하기
-```
+```js
     <!-- 리액트 가져오기 -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"crossorigin>
     </script>
