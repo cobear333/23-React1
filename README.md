@@ -8,10 +8,10 @@
     const element = <h1>Hello, world</h1>;
 ```
 ### 2. JSX의 역할 1
-    * 1번코드와 2번코드의 차이점에서 확인 할 수 있음.
-    * Hello 컴포넌트 내부에서 JSX를 사용했던 부분이 React.createElement() 함수로 대채됨.
-    * JSX 문법을 사용하면 리액트 내부적으로 모두 createElement라는 함수를 사용하도록 변경.
-    * JSX를 사용하지 않고 순수한 자바스크립트 코드만을 사용하여 완전히 동일한 역할 수행.
+* 1번코드와 2번코드의 차이점에서 확인 할 수 있음.
+* Hello 컴포넌트 내부에서 JSX를 사용했던 부분이 React.createElement() 함수로 대채됨.
+* JSX 문법을 사용하면 리액트 내부적으로 모두 createElement라는 함수를 사용하도록 변경.
+* JSX를 사용하지 않고 순수한 자바스크립트 코드만을 사용하여 완전히 동일한 역할 수행.
 #### 1번 코드
 ```js
     class Hello extends React.Componet{
