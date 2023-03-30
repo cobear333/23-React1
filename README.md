@@ -158,12 +158,12 @@
 ### 4. create-react-app
 #### 4-1. 사용법
 ![react-app](/images/img6.png)
-```
+```bash
     $ npx create-react-app <your-project-name>
 ```
 #### 4-2. npm start
 ![img7](/images/img7.png)
-```
+```bash
     $ cd my-app
     $ npm start
 ```
