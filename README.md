@@ -52,6 +52,63 @@
 
     setInterval(tick, 1000);
 ```
+### 6. 시계 만들기(react-app)
+```js
+//Clock.jsx
+import React from "react";
+
+function Clock(props){
+    return(
+        <div>
+            <h1>안녕, 리액트!<h1>
+            <h2>현재 시간: {new Date().toLocaleTimeString()}<h2>
+        </div>
+    );
+}
+
+export default Clock;
+```
+```js
+//index.js
+import Clock from './chapter_04/Clock';
+
+setInterval(() => {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(
+    <React.StrictMode>
+      <Clock />
+    </React.StrictMode>,
+  );
+}, 1000);
+```
+### 7. 리액트 컴포넌트란
+* 입력값을 props로, 출력값을 컴포넌트로 반환해주는 함수같은 역할
+* 컴포넌트에 전달할 다양한 정보를 담고 있는 자바스크립트 객체
+```python
+    Props
+    image: "서울.jpg"
+    color:"#de3151"
+    title:"서울"
+    distance:2
+```
+### 8. Props의 특징
+* 읽기 전용(Reand-only)
+* 입력값을 변경하지 않으며, 같은 입력값에 대해서는 항상 같은 출력값을 낸다
+* 모든 리액트 컴포넌트는 그들의 props에 관해서는 Pure 함수 같은 역할을 해야 한다.
+* 모든 리액트 컴포넌트는 props를 직접 바꿀 수 없고, 같은 props에 대해서는 항상 같은 결과를 보여줄 것.
+
+### 9. Props 사용법
+```js
+    function App(props){
+        return(
+            <Profile
+                name="소플"
+                introducation="안녕하세요, 소플입니다."
+                viewCount={1500}
+            />
+        );
+    }
+```
 03.23 4주차 수업내용
 ------------
 ### 1. JSX란
