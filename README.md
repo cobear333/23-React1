@@ -23,6 +23,35 @@
     }
 }
 ```
+### 3. 앨리먼트의 특징
+* 불변성(변하지 않는 성질)
+* 엘리먼트 생성 후에는 children이나 attributes를 바꿀 수 없다.
+* 이 때문에 기존 엘리먼트를 변경하려면 새로운 엘리먼트를 만들어 기존의 것과 바꿔야함.
+
+### 4. 엘리먼트 렌더링
+```html
+    <div id="root"></div>
+```
+```js
+    const element = <h1>안녕, 리액트!</h1>;
+    ReactDOM.render(element, document.getElementById('root'));
+```
+
+### 5. 렌더링된 엘리먼트 업데이트하기
+```h
+    function tick(){
+        const element = (
+            <div>
+                <h1>안녕, 리액트!</h1>
+                <h2>현재 시간: {new Date().toLocaleTimeString()}<h2>
+            </div>
+        );
+
+        ReactDOM.render(element, document.getElementById('root'));
+    }
+
+    setInterval(tick, 1000);
+```
 03.23 4주차 수업내용
 ------------
 ### 1. JSX란
