@@ -223,6 +223,141 @@ export default CommentList;
 * 결과
 ![comment](./images/image10.png)
 
+### 8. State란
+* state는 리액트 컴포넌트의 상태를 의미함
+* 리액트 컴포넌트의 변경 가능한 데이터.
+* 렌더링이나 데이터 흐름에 사용되는 값만 state에 포함
+
+### 9. State의 특징
+* state는 자바스크립트 객체이다.
+```js
+    class LikeButton extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {
+                liked: false
+            };
+        }
+
+        ...
+    }
+```
+* this.state로 정의된 State는 일반적인 변수 다루듯이 직접 수행할 수 없음.
+```js
+    // state를 직접 수정 (잘못된 사용법)
+    this.state = {
+        name : 'Inje'
+    } ;
+
+    // setState 함수를 통한 수정 (정상적인 사용법)
+    this.setState({
+        name : 'Inje'
+    });
+```
+### 10. 생명주기
+* 컴포넌트가 생성되는 시점 : 마운트(Mount)
+* 컴포넌트가 여러번 렌더링 됨 : 업데이트(Update)
+* 컴포넌트가 사라지게 되는 과정 : 언마운트(Unmount)
+
+### 11. State와 생명주기 함수 사용하기(실습)
+```js
+//Notification.jsx
+import React from "react";
+
+const styles={
+    wrapper : {
+        margin: 8,
+        padding: 8,
+        display: "flex",
+        flexDirection: "row",
+        border: "1px solid grey",
+        borderRadius: 16,
+    },
+    messageText: {
+        color: "black",
+        fontSize: 16,
+    },
+};
+
+class Notification extends React.Component{
+    constructor(props){
+        super(props);
+
+        this.state = {};
+    }
+
+    render(){
+        return(
+            <div style={styles.wrapper}>
+                <span style={styles.messageText}>
+                    {this.props.message}
+                </span>
+            </div>
+        );
+    }
+}
+
+export default Notification;
+```
+```js
+    //NotificationList.jsx
+import React from "react";
+import Notification from "./Notification";
+
+const reservedNotification = [
+    {
+        message: "안녕하세요, 오늘 일정을 알려드립니다.",
+    },
+    {
+        message: "점심 식사 시간입니다.",
+    },
+    {
+        message: "이제 곧 미팅이 시작됩니다.",
+    }
+];
+
+var timer;
+
+class NotificationList extends React.Component{
+    constructor(props){
+        super(props);
+
+        this.state={
+            notifications: [],
+        }
+    }
+
+    componentDidMount(){
+        const { notifications } = this.state;
+        timer = setInterval(() => {
+            if(notifications.length < reservedNotification.length){
+                const index = notifications.length;
+                notifications.push(reservedNotification[index]);
+                this.setState({
+                    notifications: notifications,
+                });
+            } else{
+                clearInterval(timer)
+            }
+        }, 1000);
+    }
+
+    render(){
+        return(
+            <div>
+                {this.state.notifications.map((notification) => {
+                    return <Notification message={notification.message} />;
+                })}
+            </div>
+        );
+    }
+}
+
+export default NotificationList;
+```
+* 결과
+![State](./images/image11.png)
+
 03.30 5주차 수업내용
 ------------
 ### 1. 엘리먼트의 정의
