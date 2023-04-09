@@ -222,6 +222,7 @@ export default CommentList;
 ```
 * 결과
 ![comment](./images/image10.png)
+
 03.30 5주차 수업내용
 ------------
 ### 1. 엘리먼트의 정의
