@@ -1,5 +1,227 @@
 23-React1 김해찬
 ===========
+04.06 6주차 수업내용
+------------
+### 1. 컴포넌트의 종류
+* 함수 컴포넌트
+* 클래스 컴포넌트
+### 2. 함수 컴포넌트
+```js
+    function Welcome(props){
+        return <h1>안녕, {props.name}</h1>;
+    }
+```
+* props객채를 받아 엘리먼트를 리턴하기 때문에 함수 컴포넌트라고 할 수 있음.
+### 3. 클래스 컴포넌트
+```js
+    class Welcome extends React.Component{
+        render(){
+            return <h1>안녕, {this.props.name}</h1>;
+        }
+    }
+```
+* 모든 클래스 컴포넌트는 React.Component를 상속 받음.
+### 4. 컴포넌트 이름 짓기
+* 컴포넌트의 이름은 항상 대문자로 시작해야 한다.
+```js
+    // HTML div 태그로 인식
+    const element = <div />;
+
+    // Welcome이라는 리액트 컴포넌트로 인식
+    const element = <Welcome name="인제" />;
+```
+### 5. 컴포넌트 랜더링
+```js
+    function Welcome(props){
+        return <h1>안녕, {props.name}</h1>;
+    }
+
+    const element = <Welcome name="인제" />;
+    ReactDOM.render(
+        element,
+        document.getElementById('root');
+    );
+```
+* Welcome이라는 함수 컴포넌트를 선언
+* <Welcome name="인제" /> 라는 값을 가진 엘리먼트를 생성
+* 생성된 엘리먼트를 파라미터로 ReactDOM.reander()를 호출
+* Welcome 컴포넌트에 {name: "인제" }라는 props를 넣어 호출
+* React DOM 을 통해 브러우저로 출력
+### 5. 컴포넌트 합성
+* 여러 개의 컴포넌트를 합쳐서 하나의 컴포넌트를 만드는 것.
+```js
+    function Welcome(props){
+        return <h1>Hello, {props.name}</h1>;
+    }
+
+    function App(props){
+        return(
+            <div>
+                <Welcome name="Mike"/>
+                <Welcome name="Steve" />
+                <Welcome name="Jane" />
+            </div>
+        )
+    }
+
+    ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+    );
+```
+* Welcome 이라는 컴포넌트 세개를 합쳐 App이라는 새로운 컴포넌트를 생성
+* 이러한 구조는 React가 컴포넌트 기반 이라는 특성을 잘 보여줌.
+### 6. 컴포넌트 추출
+* 큰 컴포넌트에서 일부를 추출해서 새로운 컴포넌트를 만듬
+```js
+    function Comment(props){
+        return(
+            <div className="comment">
+                <div className="user-info">
+                    <img className="avatar"
+                        src={props.author.avatarUrl}
+                        alt={props.author.name}
+                    />
+                    <div className="user-info-name">
+                        {props.author.name}
+                    </div>
+                </div>
+
+                <div className="comment-text">
+                    {props.text}
+                </div>
+
+                <div className="comment-date">
+                    {formatDate(props.date)}
+                </div>
+            </div>
+        );
+    }
+```
+* Avatar 컴포넌트 추출
+```js
+    function Avatar(props){
+        return (
+            <img className="avatar"
+                src={props.user.avatarUrl}
+                alt={props.user.name}
+            />
+        )
+    }
+```
+* 추출된 Avatar 컴포넌트를 Comment 컴포넌트에 적용
+```js
+    function Comment(props){
+        return(
+            <div className="comment">
+                <div className="user-info">
+                    <Avatar user={props.author} />
+                    <div className="user-info-name">
+                        {props.author.name}
+                    </div>
+                </div>
+
+                <div className="comment-text">
+                    {props.text}
+                </div>
+
+                <div className="comment-date">
+                    {formatDate(props.date)}
+                </div>
+            </div>
+        );
+    }
+```
+* UserInfo 컴포넌트도 추출
+```js
+    function UserInfo(props){
+        return(
+            <div className="user-info">
+                <Avatar user={props.user} />
+                <div className="user-info-name">
+                    {props.user.name}
+                </div>
+            </div>
+        );
+    }
+```
+* 추출된 UserInfo 컴포넌트를 Comment 컴포넌트에 반영
+```js
+    function Comment(props){
+        return(
+            <div className="comment">
+                <UserInfo user={props.author} />
+                <div className="comment-text">
+                    {props.text}
+                </div>
+                <div className="comment-date">
+                    {formatDate(props.date)}
+                </div>
+            </div>
+        );
+    }
+```
+### 7. 댓글 컴포넌트 만들기(실습)
+```js
+// Comment.jsx
+import React from "react";
+
+function Comment(props){
+    return(
+        <div style={styles.wrapper}>
+        <div style={styles.imageContainer}>
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+                style={styles.image}
+            />
+        </div>
+
+        <div style={styles.contentContainer}>
+            <span style={styles.nameText}>{props.name}</span>
+            <span style={styles.commentText}>{props.comment}</span>
+        </div>
+    </div>
+    );
+}
+
+export default Comment;
+```
+```js
+//CommentList.jsx
+import React from "react";
+import Comment from "./Comment";
+
+const comments = [
+    {
+        name: "이인재",
+        comment: "안녕하세요, 소플입니다.",
+    },
+    {
+        name: "유재석",
+        comment: "리액트 재미있어요~!",
+    },
+    {
+        name: "강민경",
+        comment: "저도 리액트 배워보고 싶어요!!",
+    },
+]
+
+function CommentList(props){
+    return(
+        <div>
+            {comments.map((comment) => {
+                return(
+                    <Comment name={comment.name} comment={comment.comment} />
+                )
+            })}
+        </div>
+    )
+}
+
+export default CommentList;
+```
+* 결과
+![comment](./images/image10.png)
 03.30 5주차 수업내용
 ------------
 ### 1. 엘리먼트의 정의
