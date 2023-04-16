@@ -1,5 +1,138 @@
 23-React1 김해찬
 ===========
+04.13 7주차 수업내용
+------------
+### 1. 훅이란 무엇인가
+* 클래스 컴포넌트에서는 생성자에서 state를 정의하고 setState() 함수를 했음.
+* 함수컴포넌트에서는 그 역할을 훅(Hook)이 대신 수행함.
+* 훅의 이름은 모두 use로 시작하게 되어있음.
+
+### 2. useState
+* state를 사용하기 위한 훅
+* 함수 컴포넌트에서는 기본적으로 state를 제공하지 않기 떄문.
+```js
+import React, { useState } from "react";
+
+function Counter(props){
+    var count = 0;
+
+    return(
+        <div>
+            <p>총 {count}번 클릭했습니다.</p>
+            <button onClick={() => count++}>
+                클릭
+            </button>
+        </div>
+    );
+}
+```
+* 이런식으로 코드를 짤 경우 count변수의 값은 올라가지만 랜더링이 안됨
+* 따라서 새로운 카운트 값이 화면에 표시되지 않음
+```js
+const[변수명, set함수명] = useState(초기값);
+```
+```js
+import React, { useState } from "react";
+
+function Counter(props){
+    const [count, setCount] = useState(0);
+
+    return(
+        <div>
+            <p>총 {count}번 클릭했습니다.</p>
+            <button onClick={() => setCount(count + 1)}>
+                클릭
+            </button>
+        </div>
+    );
+}
+```
+### 3. UseEffect
+* 클래스 컴포넌트에서 제공하는 생명주기 함수와 같은 기능을 제공함.
+* 첫 번째 파라미터로는 이펙트 함수, 두 번째 파라미터로는 의존성 배열이 들어감.
+* 의존성 배열 안에 있는 변수 중에 하나라도 값이 변경되었을 때 실행됨
+* 만약 이펙트 함수가 마운트와 언마운트시에 단 한번씩만 실행되게 하고 싶으면 빈배열([])을 넣으면 됨
+
+```js
+import React, {useState, useEffect} from "react";
+
+function Counter(props){
+    const [count, setCount] = useState(0);
+
+    useEffect(()=> {
+        document.title = `총 ${count}번 클릭했습니다.`;
+    });
+    //의존성 배열 파라미터를 선언을 하지 않으면 리액트DOM 자체가 의존성 배열이 됨.
+
+    return(
+        <div>
+            <p>총 {count}번 클릭했습니다.</p>
+            <button onClick={() => setCount(count + 1)}>
+                클릭
+            </button>
+        </div>
+    );
+}
+```
+* useEffect로 componentWillUnmount기능 구현하기
+```js
+import React, { useState, useEffect } from "react";
+
+function UserStatus(props){
+    const [isOnline, setIsOnline] = useState(null);
+
+    function handleStatusChange(status){
+        setIsOnline(status.isOnline);
+    }
+
+    useEffect(() => {
+        ServerAPI.subscribeUserStatus(props.user.id, handleStatusChange);
+        return () => {
+            ServerAPI.unsubscribeUserStatus(props.user.id, handleStatusChange);
+        };
+    });
+
+    if(isOnline == null){
+        return '대기 중...';
+    }
+    return isOnline ? '온라인' : '오프라인';
+}
+```
+* useEffect() 훅은 하나의 컴포넌트에 여러개를 사용 할 수 있음.
+```js
+function UserStatusWithCounter(props){
+    const [isOnline, setIsOnline] = useState(null);
+    useEffect(()=> {
+        document.title = `총 ${count}번 클릭했습니다.`;
+    });
+
+    function handleStatusChange(status){
+        setIsOnline(status.isOnline);
+    }
+
+    useEffect(() => {
+        ServerAPI.subscribeUserStatus(props.user.id, handleStatusChange);
+        return () => {
+            ServerAPI.unsubscribeUserStatus(props.user.id, handleStatusChange);
+        };
+    });
+
+    function handleStatusChange(status){
+        setIsOnline(status.isOnline);
+    }
+}
+```
+### 4.useMemo 
+* Momized value를 리터는하는 훅
+```js
+    const memoizedValue = useMemo(
+        () => {
+            return computeExpesiveValue(의존성 변수1, 의존성 변수2);
+        },
+        [의존성 변수1, 의존성 변수2]
+    );
+```
+
 04.06 6주차 수업내용
 ------------
 ### 1. 컴포넌트의 종류

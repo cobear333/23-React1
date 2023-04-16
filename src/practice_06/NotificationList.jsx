@@ -16,14 +16,14 @@ const reservedNotifications = [
     }
 ];
 
-var timer;
+var timer 
 
 class NotificationList extends React.Component{
     constructor(props){
-        super(props);
+        super(props)
         this.state = {
             notifications: [],
-        };
+        }
     }
 
     componentDidMount(){
@@ -34,9 +34,9 @@ class NotificationList extends React.Component{
                 notifications.push(reservedNotifications[index]);
                 this.setState({
                     notifications: notifications,
-                });
-            } else{
-                clearInterval(timer)
+                })
+            }else{
+                clearInterval(timer);
             }
         }, 1000);
     }
@@ -44,15 +44,16 @@ class NotificationList extends React.Component{
     render(){
         return(
             <div>
-                {this.state.notifications.map((notification) => {
-                    return <Notification
-                            key={notification.id}
-                            id={notification.id}
-                            message={notification.message} />;
+                {this.state.notifications.map((notification)=> {
+                    return ( <Notification 
+                    key={notification.id}
+                    id={notification.id}
+                    message={notification.message} />
+                    );
                 })}
             </div>
         );
     }
 }
 
-export default NotificationList;
+export default NotificationList
