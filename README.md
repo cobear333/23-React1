@@ -1,5 +1,321 @@
 23-React1 김해찬
 ===========
+04.27 9주차 수업내용
+------------
+### 1. 이벤트 처리하기
+* DOM에서 클릭이벤트를 처리하는 방법
+```js
+    <button onclick="activate()">
+        Activate
+    </button>
+```
+* 리액트에서 클릭이벤트를 처리하는 방법
+```js
+    <button onClick={activate}>
+        Activate
+    </button>
+```
+* 이벤트 핸들러를 추가하는 방법
+```js
+class Toggle extends React.Component {
+    constructor(props){
+        super(props);
+
+        this.state = { isToggleOn: true};
+
+        // callback 에서 `this`를 사용하기 위해서는 바인딩이 필수
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(){
+        this.setState(prevState => ({
+            isToggleOn: !prevState.isToggleOn
+        }));
+    }
+
+    reunder(){
+        return(
+            <button onClick={this.handleClick}>
+                {this.state.isToggleOn ? '켜짐' : '꺼짐'}
+            </button>
+        )
+    }
+}
+
+```
+* 클래스 필드 문법을 사용하여 코드 간략화
+```js
+class MyButton extends React.Component{
+    handleClick = () => {
+        console.log('this is:' , this);
+    }
+
+    render(){
+        return (
+            <button onClick={this.handleClick}>
+                클릭
+            </button>
+        );
+    }
+}
+```
+* this문법 대신 화살표 함수를 사용하는 방법
+```js
+class MyButton extends React.Component{
+    handleClick() {
+        console.log('this is:' , this);
+    }
+
+    render(){
+        return (
+            <button onClick={() => this.handleClick()}>
+                클릭
+            </button>
+        );
+    }
+}
+```
+* 클래스 컴포넌트를 함수 컴포넌트로 변경
+```js
+function Toggle(props){
+    const [istToggleOn, setIsToggleOn] = useState(true);
+    
+    // 방법 1. 함수 안에 함수로 정의
+    function handelClick(){
+        setIsToggleOn((isToggleOn) => !isToggleOn);
+    }
+
+    //방법 2. arrow function을 사용하여 정의
+    const handleClick = () => {
+        setIsToggleOn((isToggleOn) => !isToggleOn);
+    }
+    
+    return(
+        <button onClick={handleClick}>
+            {isToggleOn ? "켜짐" : "꺼짐"}
+        </button>
+    );
+}
+```
+
+### 2. Arguments 전달하기
+* Arguments란 함수에 전달할 데이터를 말함
+* 흔히 매개변수라고 부름
+```js
+<button onClick={(event) => this.deleteItem(id, event)}>삭제하기</button>
+<button onClick={this.deleteItem.bind(this, id)}>삭제하기</button>
+```
+* 함수컴포넌트에서 매개변수를 전달하는 방법
+```js
+function MyButton(props){
+    const handleDelete = (id, event) =>{
+        console.log(id, event.target);
+    };
+
+    return(
+        <button onClick={(event) => handleDelete(1, event)}>삭제하기</button>
+    );
+}
+```
+
+### 3. 클릭 이벤트 처리하기(실습)
+```js
+import React, { useState } from "react";
+
+function ConfirmButton(props){
+    const [isConfirmed, setIsConfirmed] = useState(false);
+
+    const handleConfirm = () => {
+        setIsConfirmed((prevIsConfirmed) => !prevIsConfirmed);
+    };
+
+    return(
+        <button onClick={handleConfirm} disabled={isConfirmed}>
+            {isConfirmed ? "확인됨" : "확인하기"}
+        </button>
+    );
+}
+
+export default ConfirmButton;
+```
+
+### 4. 조건부 렌더링이란
+* 어떠한 조건에 따라서 렌더링이 달라지는 것
+```js
+function UserGreeting(props){
+    return <h1>다시 오셨군요!</hi>;
+}
+
+function GuestGreeting(props){
+    return <h1>회원가입을 해주세요.</h1>;
+}
+
+function Greeting(props){
+    const isLoggedIn = props.isLoggedIn;
+    if(isLoggedIn){
+        return <UserGreeting />;
+    }
+    return <GuestGreeting />;
+}
+```
+
+### 5. 엘리번트 변수
+* 렌더링 할 컴포넌트를 변수처럼 다루는 기법
+```js
+function LoginButton(props){
+    return(
+        <button onClick={props.onClick}>
+            로그인
+        </button>
+    );
+}
+
+function LogoutButton(props){
+    return(
+        <button onClick={props.onClick}>
+            로그아웃
+        </button>
+    );
+}
+
+function LoginControl(props){
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const handleLoginClick = () => {
+        setIsLoggedIn(true);
+    }
+
+    const handleLogoutClick = () => {
+        setIsLoggedIn(false);
+    }
+
+    let button;
+    if(isLoggedIn) {
+        button = <LogoutButton onClick={handleLogoutClick} />;
+    }else{
+        button = <LoginButton onClick={handleLoginClick} />;
+    }
+
+    return(
+        <div>
+            <Greeting isLoggedIn={isLoggedIn} />
+            {button}
+        </div>
+    )
+}
+```
+### 6. 인라인 조건
+* 조건문을 코드 안에 집어 넣는 것
+```js
+//인라인 if 예제
+true && expression -> expression
+false && expression -> false
+```
+* 인라인 If를 JSX 코드 안에서 사용하는 방법
+```js
+function MailBox(props){
+    const unreadMessages = props.unreadMessages;
+
+    return(
+        <div>
+            <h1>안녕하세요!</h1>
+            {unreadMessages.length > 0 &&
+                <h2>
+                    현재 {unreadMessages.length}개의 읽지 않은 메시지가 있습니다.
+                </h2>
+            }
+        </div>
+    );
+}
+```
+* 인라인 If - Else
+```js
+function UserStatus(props){
+    return(
+        <div>
+            이 사용자는 현재 <b>{props.isLoggedIn ? `로그인` : `로그인하지 않은`}</b> 상태입니다.
+        </div>
+    )
+}
+```
+### 7. 컴포넌트 렌더링 막기
+* 조건부 렌더링에서 null을 return 하면 컴포넌트가 렌더링 되는 것을 막을 수 있음
+```js
+function WariningBanner(props){
+    if (!props.warning){
+        return null;
+    }
+
+    return(
+        <div>경고!</div>
+    );  
+}
+```
+### 8. 로그인 여부를 나타내는 툴바 만들기(실습)
+```js
+//Toolbar.jsx
+import React from "react";
+
+const style = {
+    wrapper: {
+        padding: 16,
+        display: "flex",
+        flexDirection: "row",
+        borderBottom: "1ox solid grey",
+    },
+    greeting:{
+        marginRight: 8,
+    },
+};
+
+function Toolbar(props){
+    const { isLoggenIn, onClickLogin, onClickLogout } = props;
+
+    return(
+        <div style={style.wrapper}>
+            {isLoggedIn && <span style={style.greeting}>환영합니다!</span>}
+
+            {isLoggedIn ? (
+                <button onClick={onClickLogout}>로그아웃</button>
+            ): (
+                <button onClick={onClickLogin}>로그인</button>
+            )}
+        </div>
+    );
+}
+
+export default Toolbar;
+```
+```js
+//LandingPage.jsx
+import React, { useState } from "react";
+import Toolbar from "./Toolbar";
+
+function LandingPage(props){
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const onClickLogin = () => {
+        setIsLoggedIn(true);
+    };
+
+    const onClickLogout = () => {
+        setIsLoggedIn(false);
+    };
+
+    return(
+        <div>
+            <Toolbar
+                isLoggedIn={isLoggedIn}
+                onClickLogin={onClickLogin}
+                onClickLogout={onClickLogout}
+            />
+            <div style={{ padding: 16}}>소플과 함께하는 리액트 공부!</div>
+        </div>
+    );
+}
+
+export default LandingPage;
+```
 04.13 7주차 수업내용
 ------------
 ### 1. 훅이란 무엇인가
