@@ -1,5 +1,181 @@
 23-React1 김해찬
 ===========
+05.04 10주차 수업내용
+------------
+### 1. 리스트와 키란 무엇인가?
+* 자바스크립트의 변수나 객체를 하나의 변수로 묶어 놓은 것
+```js
+const numbers = [1,2,3,4,5];
+```
+* 키는 각 객체나 아이템을 구분할 수 있는 고유의 값
+### 2. 여러 개의 컴포넌트 랜더링 하기
+* map() 함수는 배열에 들어있는 각 변수에 어떤 처리를 한 뒤 리턴하는 것
+```js
+const doubled = numbers.map((number) => number * 2); 
+```
+* 실제로 랜더링을 하는 예제 코드
+```js
+const numbers = [1,2,3,4,5];
+const listItems = numbers.map((number) => <li>{number}</li>);
+
+ReactDOM.render(
+    <ul>{listItems}</ul>
+    document.getElementById('root');
+);
+```
+### 3. 기본적인 리스트 컴포넌트
+* 밑 예제는 키 값이 없다는 오류가 출력 됨
+```js
+function NumberList(props){
+    const { numbers } = props;
+
+    const listItems = numbers.map((number) => <li>{number}</li>);
+
+    return(
+        <ul>{listItems}</ul>
+    );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+    <NumberList numbers={numbers}/>,
+    document.getElementById('root')
+);
+```
+### 4. 리스트의 키에 대해 알아보기
+* 리스트에서 아이템을 구분하기 위한 고유한 문자열
+* 리액트에서의 키의 값은 같은 리스트에 있는 엘리먼트 사이에서만 고유한 값이면 됨
+
+* 키 값으로 숫자의 값을 사용한 방법
+```js
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =>
+    <li key={number.toString()}>
+        {number}
+    </li>
+);
+```
+* 키값으로 id를 사용하는 방법
+```js
+const todoItems = todos.map((todo) =>
+    <li key={todo.id}>
+        {todo.text}
+    </li>
+);
+```
+* 키값으로 index를 사용하는 방법
+* 리액트에서는 키를 명시적으로 넣어 주지 않으면 기본적으로 이 인덱스 값을 키값으로 사용함
+```js
+const todoItems = todos.map((todo, index) =>
+    <li key={index}>
+        {todo.text}
+    </li>
+);
+```
+### 5. 출석부 출력하기 (실습)
+```js
+//AttendanceBook.jsx
+import React from "react";
+
+const students = [
+    {
+        id : 1,
+        name: "Inje",
+    },
+    {
+        id : 2,
+        name: "Steve",
+    },
+    {
+        id : 3,
+        name: "Bill",
+    },
+    {
+        id : 4,
+        name: "Jeff",
+    },
+];
+
+function AttendanceBook(props){
+    return(
+        <ul>
+            {students.map((student) => {
+                return <li>{student.name}</li>;
+            })}
+        </ul>
+    );
+}
+
+export default AttendanceBook;
+```
+### 6. 폼이란 무엇인가
+* 사용자로부터 입력을 받기 위해 사용하는 것
+```js
+<form>
+    <label>
+        이름 :
+        <input type="text" name="name" />
+    </label>
+    <button type="submit">제출</button>
+</form>
+```
+### 7. 제어 컴포넌트
+* 사용자가 입력한 값에 접근하고 제어할 수 있도록 해주는 컴포넌트
+* 제어 컴포넌트는 그 값이 리액트의 통제를 받는 입력 폼 엘리먼트
+```js
+function NameForm(props){
+    const [value, setValue] = useState('');
+
+    const handleChange = (event) => {
+        setValue(event.target.value);
+    }
+
+    const handleSubmit = (event) => {
+        alert(`입력한 이름: ` + value);
+        event.preventDefault();
+    }
+
+    return(
+        <form onSubmit={handleSubmit}>
+            <label>
+                이름 :
+                <input type="text" value={value} onChange={handleChange} />
+            </label>
+        </form>
+    )
+}
+```
+* 사용자가 입력한 값을 모두 대문자로 변환
+```js
+const handleChange = (event) => {
+    setValue(event.target.value.toUpperCase());
+}
+```
+### 8. textarea 태그
+```js
+function RequestForm(props){
+    const [value, setValue] = useState('요청사항을 입력하세요.');
+
+    const handleChange = (event) => {
+        setValue(event.target.value);
+    }
+
+    const handleSubmit = (event) => {
+        alert('입력한 요청사항: ' + value);
+        event.preventDefault();
+    }
+
+    return(
+        <form onSubmit={handleSubmit}>
+            <label>
+                요청사항:
+                <textarea value={value} onChange={handleChange} />
+            </label>
+            <button type="submit">제출</button>
+        </form>
+    )
+}
+```
 04.27 9주차 수업내용
 ------------
 ### 1. 이벤트 처리하기
