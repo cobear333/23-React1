@@ -176,6 +176,154 @@ function RequestForm(props){
     )
 }
 ```
+### 9. select 태그
+```js
+function FruitSelect(props){
+    const [value, setValue] = useState('grape');
+
+    const hanldeChange = (event) => {
+        setValue(event.target.value);
+    }
+
+    const handleSubmit = (event) => {
+        alert('선택한 과일: ' + value);
+        event.preventDefault();
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <label>
+                과일을 선택하세요:
+                <select value={value} onChange={handleChange}>
+                    <option value="apple">사과</option>
+                    <option value="banana">바나나</option>
+                    <option value="grape">포도</option>
+                    <option value="watermelon">수박</option>
+                </select>
+            </label>
+            <button type="submit">제출</submit>
+        </form>
+    )
+}
+```
+### 9. 여러 개의 입력 다루기
+```js
+function Reservation(props){
+    const [haveBreakfast, setHaveBreakfast] = useState(true);
+    const [numberOfGuestm setNumberOfGeust] = useState(2);
+
+    const handleSubimt = (event) => {
+        alert(`아침식사 여부: ${haveBreakfast}, 방문객 수: ${numberOfGeust}`);
+        event.preventDefault();
+    }
+
+    return(
+        <form onSubmit={handleSubmit}>
+            <label>
+                아침식사 여부:
+                <input 
+                    type="checkbox"
+                    checked={haveBreakfast}
+                    onChange={(event) => {
+                        setHaveBreakfast(event.target.checked);
+                    }} />
+            </label>
+            <br />
+            <label>
+                방문객 수:
+                <input 
+                    type="checkbox"
+                    checked={numberOfGuest}
+                    onChange={(event) => {
+                        setNumberOfGuest(event.target.checked);
+                    }} />
+            </label>
+            <button type="submit">제출</button>
+        </form>
+    );
+}
+```
+### 10. 사용자 정보 입력받기(실습)
+```js
+// SignUp.jsx
+import React, { useState } from "react";
+
+function SignUp(props){
+    const [name, setName] = useState("");
+
+    const handleChangeName = (event) => {
+        setName(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        alert(` 이름: ${name}`);
+        event.preventDefault();
+    };
+
+    return(
+        <form onSubmit={handleSubmit}>
+            <label>
+                이름:
+                <input type="text" value={name} onChange={handleChangeName} />
+            </label>
+            <button type="submit">제출</button>
+        </form>
+    );
+}
+
+export default SignUp;
+```
+### 11. 하위 컴포넌트에서 State 공유하기
+* 물의 끓음 여부를 알려주는 컴포넌트
+```js
+function BoilingVerdict(props){
+    if (props.celsius >= 100) {
+        return <p>물이 끓습니다.</p>;
+    }
+    return <p>물이 끓지 않습니다.</p>;
+}
+
+function Calculator(props){
+    const [temperature, setTemperature] = useState('');
+
+    const handleChange = (event) => {
+        setTemperature(event.target.value);
+    }
+
+    return (
+        <fieldset>
+            <legend>섭씨 온도를 입력하세요:</legend>
+            <input
+                value={temperature}
+                onChange={handleChange} />
+                <BoilingVerdict
+                    celsius={parseFloat(temperature)} />
+            </fieldset>
+    )
+}
+```
+* 입력 컴포넌트 추출하기
+```js
+const scaleNames = {
+    c: '섭씨',
+    f: '화씨'
+};
+
+function TemperatureInput(props){
+    const [temperature, setTemperature] = useState('');
+
+    const handleChange = (event) => {
+        setTemperature(event.target.value);
+    } 
+
+    return (
+        <fieldset>
+            <legend>온도를 입력해 주세요(단위:{scaleNames[props.scale]}):</legend>
+            <input value={temperature} onClick={handleChange}/>
+        </fieldset>
+    )
+}
+```
 04.27 9주차 수업내용
 ------------
 ### 1. 이벤트 처리하기
