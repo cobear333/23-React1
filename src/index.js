@@ -22,13 +22,14 @@ import TextInputWithFocusButton from './chapter_07/TextInputWithFocusButton';
 import ConfirmButton from './chapter_08/ConfirmButton';
 import Toolbar from './chapter_09/Toolbar';
 import AttendanceBook from './chapter_10/AttendanceBook';
+import ProfileCard from './chapter_13/ProfileCard';
 
 
 const root = createRoot(document.getElementById("root"));
 
 root.render(
     <StrictMode>
-        <AttendanceBook />
+        <ProfileCard />
     </StrictMode>
 )
 

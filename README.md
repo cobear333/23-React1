@@ -1,5 +1,355 @@
 23-React1 김해찬
 ===========
+05.18 12주차 수업내용
+------------
+### 1. 합성에 대해 알아보기
+* 여러 개의 컴포넌트를 합쳐서 새로운 컴포넌트를 만드는 것
+#### 1-1. Containment
+* 하위 컴포넌트를 포함하는 형태의 합성 방법
+* Containment를 사용하는 방법은 리액트 컴포넌트의 props의 children속성을 사용
+```js
+function FancyBorder(props) {
+    return(
+        <div className={'FancyBorder FancyBorder-' + props.color}>
+            {props.children}
+        </div>
+    );
+}
+```
+* 실제로 FancyBorder 컴포넌트를 사용하는 예제
+```js
+function WelcomeDialog(props) {
+    return (
+        <FancyBorder color="blue">
+            <h1 className="Dialog-title">
+                어서오세요
+            </h1>
+            <p className="Dialog-message">
+                우리 사이트에 방문하신 것을 환영합니다!
+            </p>
+        </FancyBorder>
+    )
+}
+```
+* 여러 개의 children 집합이 필요한 경우
+```js
+function SplitPane(props) {
+    return (
+        <div className="SplitPane">
+            <div className="SplitPane-left">
+                {props.left}
+            </div>
+            <div className="SplitPane-right">
+                {props.right}
+            </div>
+        </div>
+    )
+}
+
+function App(props) {
+    return (
+        <SplitPane
+            left={
+                <Contacts />
+            }
+            right={
+                <Chat />
+            }
+        />
+    );
+}
+```
+#### 1-2. Specialization
+* 범용적인 개념을 구별이 되게 구체화하는 것
+```js
+function Dialog(props) {
+    return (
+        <FancyBorder color="blue">
+            <h1 className="Dialog-title">
+                {props.title}
+            </h1>
+            <p className="Dialog-message">
+                {props.message}
+            </p>
+        </FancyBorder>
+    );
+}
+
+function WelcomeDialog(props) {
+    return (
+        <Dialog
+            title="어서 오세요"
+            message="우리 사이트에 방문하신 것을 환영합니다!"
+        />
+    );
+}
+```
+#### 1-3 Containment와 Specialization을 같이 사용하기
+```js
+function Dialog(props) {
+    return (
+        <FancyBorder color="blue">
+            <h1 className="Dialog-title">
+                {props.title}
+            </h1>
+            <p className="Dialog-message">
+                {props.message}
+            </p>
+            {props.children}
+        </FancyBorder>
+    );
+}
+
+function SignUpDialog(props) {
+    const [nickname, setNickname] = useState('');
+
+    const hanldeChange = (event) => {
+        setNickname(event.target.value);
+    }
+
+    const handleSignUp = () => {
+        alert(`어서 오세요, ${nickname}님!`);
+    }
+
+    return (
+        <Dialog
+            title="화성 탐사 프로그램"
+            message="닉네임을 입력해 주세요.">
+            <input
+                value={nickname}
+                onChange={handleChange} />
+            <button onClick={handleSignUp}>
+                가입하기
+            </button>
+        </Dialog>
+    );
+}
+```
+### 2. Card 컴포넌트 만들기(실습)
+```js
+//Card.jsx
+function Card(props) {
+    const { title, backgroundColor, children } = props;
+
+    return (
+        <div
+            style={{
+                margin: 8,
+                padding: 8,
+                borderRadius: 8,
+                boxShadow: "0px 0px 4px grey",
+                backgroundColor: backgroundColor || "white" ,
+            }}
+        >
+            {title && <h1>{title}</h1>}
+            {children}
+        </div>
+    );
+}
+
+export default Card;
+```
+```js
+//ProfileCard.jsx
+import Card from "./Card";
+
+function ProfileCard(props) {
+    return (
+        <Card title="Inje Lee" backgroundColor="#4ea04e">
+            <p>안녕하세요, 소플입니다.</p>
+            <p>저는 리액트를 사용해서 개발하고 있습니다.</p>
+        </Card>
+    );
+}
+
+export default ProfileCard;
+```
+### 3. 컨텍스트란 무엇인가
+* 컴포넌트 트리를 통해 곧바로 컴포넌트에 전달하는 새로운 방식
+
+#### 3-1. 컨텍스트를 사용하는 시기
+* 자식컴포넌트가 여러개일 경우 한번에 접근하기 쉬움
+```js
+function App(props) {
+    return <Toolbar theme="dark" />
+}
+
+function Toolbar(props) {
+    // 이 Toolbar 컴포넌트는 ThemedButton에 theme를 넘겨주기 위해 'theme' props를 가져야만 함
+    // 현재 테마를 알아야 하는 모든 버튼에 대해서 props로 전달하는 것은 굉장히 비효율적
+    return (
+        <div>
+            <ThemedButton theme={props.theme} />
+        </div>
+    );
+}
+
+function ThemedButton(props) {
+    return <Button theme={props.theme} />;
+}
+```
+* 아래 코드는 컨텍스트를 사용하여 위와 동일한 기능을 구현
+```js
+// 컨텍스트는 데이터를 매번 컴포넌트를 통해 전달할 필요 없이 컴포넌트 트리로 곧바로 전달
+// 여기서는 현재 테마를 위한 컨텍스트를 생성하며, 기본값은 'light'임.
+const ThemeContext = React.createContext('light');
+
+// Provider를 사용하여 하위 컴포넌트들에게 현재 테마 데이터를 전달
+// 모든 하위 컴포넌트들은 컴포넌트 트리 하단에 얼마나 깊이 있는지 관계없이 데이터를 읽을 수 있음
+// 여기에서는 현재 테마값으로 'dark'를 전달하고 있음
+function App(props) {
+    return (
+        <ThemeContext.Provider value="dark">
+            <Toolbar />
+        </ThemeContext.Provider>
+    );
+}
+
+// 이제 중간에 위차한 컴포넌트는 테마 데이터를 하위 컴포넌트로 전달할 필요가 없습니다.
+function Toolbar(props) {
+    return (
+        <div>
+            <ThemedButton />
+        </div>
+    );
+}
+
+function ThemedButton(props) {
+    // 리액트는 가장 가까운 상위 테마 Provider를 찾아서 해당되는 값을 사용함.
+    // 만약 해당되는 Provider가 없을 경우 기본값(여기서는 'light')을 사용함.
+    // 여기서는 상위 Provier가 있기 때문에 현재 테마의 값은 'dark'가 됨.
+    return (
+        <ThemeContext.Consumer>
+            {value => <Button theme={value} />}
+        </ThemeContext.Consumer>
+    );
+}
+```
+### 4. 컨텍스트를 사용하기 전에 고려할 점
+* 컨텍스트를 사용하는 것이 무조건 좋은 것으 아님
+* 컴포넌트와 컨텍스트가 연동되면 재사용성이 떨어지기 때문
+* 다른 레벨의 많은 컴포넌트가 데이터를 필요로 하는 경우가 아니라면 기존 방식이 더 효율적
+```js
+// Page컴포넌트는 PageLayout컴포넌트를 렌더링
+<Page user={user} avatarSize={avatarSize}>
+
+// PageLayout컴포넌트는 NavigationBar컴포넌트를 렌더링
+<PageLayout user={user} avatarSize={avatarSize} />
+
+// NavicationBar컴포넌트는 Link컴포넌트를 렌더링
+<NavigationBar user={user} avatarSize={avatarSize} />
+
+// Link컴포넌트는 Avatar컴포넌트를 렌더링
+<Link href={user.permalink}>
+    <Avator user={user} size={avatorSize} />
+</Link>
+```
+* 이러한 문제를 해결 할 수 있는 방법
+* Avator컴포넌트를 변수에 지정하여 직접 넘겨주는 것
+```js
+function Page(props) {
+    const user = props.user;
+
+    const userLink = (
+        <Link href={user.permalink}>
+            <Avator user={user} size={props.avatorSize} />
+        </Link>
+    );
+
+    // Page 컴포넌트는 PageLayout 컴포넌트를 렌더링
+    // 이때 props로 userLink를 함께 전달함.
+    return <PageLayout userLink={userLink} />;
+}
+
+// PageLayout 컴포넌트는 NavigationBar 컴포넌트를 렌더링
+<PageLayout userLink={...} />
+
+// NavigationBar 컴포넌트는 props로 전달받은 userLink element를 리턴
+<NavigationBar userLink={...} />
+```
+* 위 방법은 데이터가 많이질수록 상위 컴포넌트에 몰리기 때문에 좋지 않음
+* 하위 컴포넌트를 여러 개의 변수로 나눠서 전달하는 방법
+```js
+function Page(props) {
+    const user = props.user;
+
+    const topBar = (
+        <NavigationBar>
+            <Link href={user.permalink}>
+                <Avator user={user} size={props.avatorSize} />
+            </Link>
+        </NavigationBar>
+    );
+    const content = <Feed user={user} />;
+
+    return (
+        <PageLayout
+            topBar={topBar}
+            content={content}
+        />
+    );
+}
+```
+* 이방식은 하위 컴포넌트의 의존성을 상위 컴포넌트와 분리할 필요가 있을때 효과적
+### 5.컨텍스트API
+* React.createContext() 함수는 파라미터로 기본값을 넣어줌
+* 만약 상위 레벨에 매칭되는 Provider가 없다면, 이 경우에만 기본값이 사용됨.
+* 기본값으로 undefined를 넣으면 기본값이 사용되지 않음.
+```js
+const MyContext = React.createContext(기본값);
+```
+
+* Context.Provider 컴포넌트로 하위 컴포넌트를 감싸주면 모든 하위 컴포넌트들이 해당 컨텍스트의 데이터에 접근할 수 있음.
+* 하위 컴포넌트가 데이터를 소비한다는 의미로 consumer 컴포넌트라고 부름
+* Provier 컴포넌트로 감싸진 모든 consumer 컴포넌트는 Provier의 value prop가 바뀔때마다 재 렌더링.
+```js
+<MyContext.Povider value={/* some value */}>
+```
+
+* Class.contextType은 Provider 하위에 잇는 클래스 컴포넌트에서 컨텍스트의 데이터에 접근하기 위해 사용
+```js
+class MyClass extends React.Component {
+    componentDidMount() {
+        let value = this.context;
+        /* MyContext의 값을 이용하여 원하는 작업을 수행 가능 */
+    }
+    componentDidUpdate() {
+        let value = this.context;
+        /* ... */
+    }
+    componentWillUnmount() {
+        let value = this.context;
+        /* ... */
+    }
+    render() {
+        let value = this.context;
+        /* MyContext의 값에 따라서 컴포넌트를 렌더링 */
+    }
+}
+
+MyClass.contextType = MyContext;
+```
+
+* Context.Consumer 컴포넌트는 컨텍스트의 데이터를 구독하는 컴포넌트
+```js
+<MyContext.Consumer>
+    {value => /* 컨텍스트의 값에 따라서 컴포넌트들을 렌더링 */}
+</MyContext.Consumer>
+```
+
+* Context.displayName 이라는 문자열 속성
+* 크롬의 리액트 개발자 도구에서는 컨텍스트의 Provider나 Consumer를 표시할 때 이 displayName을 함께 표시해줌
+```js
+const MyContext = React.createContext(/* some value */);
+MyContext.displayName = 'MyDisplayName';
+
+// 개발자 도구에 "MyDisplayname.Provider"로 표시됨
+<MyContext.Provider>
+
+// 개발자 도구에 "MyDisplayName.Consumer"로 표시됨
+<MyContext.Consumer>
+```
+
 05.11 11주차 수업내용
 ------------
 ### 1. 온도 변환 함수 작성하기
